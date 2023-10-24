@@ -73,6 +73,7 @@ Options:
                  experience no I/O activity before it is spun down (default: 3600).
   -p POLL_TIME : I/O poll interval. Number of seconds to wait for I/O during a
                  single monitoring period (default: 600).
+                 If set to '0', the scripe exits after polling once.
   -s TIMEOUT   : Shutdown timeout. If given and no drive is active for TIMEOUT
                  seconds, the system will be shut down.
   -u MODE      : Operation mode (default: disk).
@@ -589,6 +590,10 @@ function main() {
                 SHUTDOWN_COUNTER=${SHUTDOWN_TIMEOUT}
             fi
             log_verbose "Shutdown timeout: ${SHUTDOWN_COUNTER}"
+        fi
+
+        if [ ${POLL_TIME} -eq 0 ]; then
+            exit 0
         fi
 
     done
